@@ -1,4 +1,4 @@
-const API_ROOT = "http://localhost:3000";
+const API_ROOT = "http://localhost:3000/products";
 
 const tableHeaders = [
   {
@@ -26,7 +26,7 @@ const tableHeaders = [
     subDataId: "id",
     tableHeader: "Area",
     type: "select",
-    url: `${API_ROOT}/areas`
+    url: `http://localhost:3000/areas`
   },
   {
     editable: true,
@@ -35,7 +35,7 @@ const tableHeaders = [
     subDataId: "id",
     tableHeader: "Category",
     type: "select",
-    url: `${API_ROOT}/categories`
+    url: `http://localhost:3000/categories`
   },
   {
     editable: true,
@@ -44,29 +44,29 @@ const tableHeaders = [
     subDataId: "id",
     tableHeader: "Units",
     type: "select",
-    url: `${API_ROOT}/units`
+    url: `http://localhost:3000/units`
   },
 ];
 
 async function readData() {
-  const tableData = await readDataReq(`${API_ROOT}/products`);
+  const tableData = await readDataReq(`${API_ROOT}`);
   return tableData;
 }
 
 async function createData(data) {
-  const response = await createDataReq(`${API_ROOT}/products`, data);
+  const response = await createDataReq(`${API_ROOT}`, data);
   if(response.error) console.log(response);
   else document.location.reload();
 }
 
 async function updateData(id, data) {
-  const response = await updateDataReq(`${API_ROOT}/products/${id}`, data);
+  const response = await updateDataReq(`${API_ROOT}/${id}`, data);
   if(response.error) console.log(response);
   else document.location.reload();
 }
 
 async function deleteData(id) {
-  const response = await deleteDataReq(`${API_ROOT}/products/${id}`);
+  const response = await deleteDataReq(`${API_ROOT}/${id}`);
   if(response.error) console.log(response);
   else document.location.reload();
 }
