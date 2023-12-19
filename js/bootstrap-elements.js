@@ -65,6 +65,7 @@ function bsModal(
 
   const confirmButton = document.createElement("button")
   confirmButton.setAttribute("type", "button")
+  confirmButton.setAttribute("data-bs-dismiss", "modal")
   confirmButton.className = `btn btn-${bsColor}`
   confirmButton.innerText = "Confirm"
   confirmButton.addEventListener("click", confirmButtonCb)
@@ -163,12 +164,12 @@ function bsTable(tableHeaders, tableData, updateButtonCb, deleteButtonCb) {
     }
 
     const tdUpdate = document.createElement("td")
-    const updateButton = bsTriggerModal("update-modal", "Editar", "warning")
+    const updateButton = bsTriggerModal("update-modal", "Update", "warning")
     updateButton.addEventListener("click", () => updateButtonCb(row))
     tdUpdate.append(updateButton)
 
     const tdDelete = document.createElement("td")
-    const deleteButton = bsTriggerModal("delete-modal", "Eliminar", "danger")
+    const deleteButton = bsTriggerModal("delete-modal", "Delete", "danger")
     deleteButton.addEventListener("click", () => deleteButtonCb(row))
     tdDelete.append(deleteButton)
 

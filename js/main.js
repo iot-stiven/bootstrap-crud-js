@@ -3,35 +3,8 @@ const mainContainer = document.querySelector(".container-fluid")
 
 const crudTitle = bsCrudTitle("CRUD name")
 
-const createForm = document.createElement("div")
-const createFormInputName = bsFormInput("create-name", "text", "Name")
-const createFormInputLastname = bsFormInput(
-  "create-lastname",
-  "text",
-  "Lastname"
-)
-const createFormInputAge = bsFormInput("create-age", "number", "Age")
-createForm.append(
-  createFormInputName,
-  createFormInputLastname,
-  createFormInputAge
-)
-
-const updateForm = document.createElement("div")
-const updateFormInputName = bsFormInput("update-name", "text", "Name")
-const updateFormInputLastname = bsFormInput(
-  "update-lastname",
-  "text",
-  "Lastname"
-)
-const updateFormInputAge = bsFormInput("update-age", "number", "Age")
-updateForm.append(
-  updateFormInputName,
-  updateFormInputLastname,
-  updateFormInputAge
-)
-
 const createTriggerModal = bsTriggerModal("create-modal", "Create", "success")
+const createForm = bsForm(tableHeaders, "create")
 const createModal = bsModal(
   "create-modal",
   "Create Modal",
@@ -40,18 +13,27 @@ const createModal = bsModal(
   () => {
     createData({
       name: document.getElementById("create-name").value,
-      lastname: document.getElementById("create-name").value,
-      age: document.getElementById("create-name").value,
+      lastname: document.getElementById("create-lastname").value,
+      age: parseInt(document.getElementById("create-age").value),
     })
+    document.getElementById("create-name").value = ""
+    document.getElementById("create-lastname").value = ""
+    document.getElementById("create-age").value = ""
   }
 )
-
+const updateForm = bsForm(tableHeaders, "update")
 const updateModal = bsModal(
   "update-modal",
   "Update Modal",
   "warning",
   updateForm,
-  () => {}
+  () => {
+    updateData(selectedId, {
+      name: document.getElementById("update-name").value,
+      lastname: document.getElementById("update-lastname").value,
+      age: document.getElementById("update-age").value,
+    })
+  }
 )
 
 const deleteModal = bsModal(
@@ -59,7 +41,9 @@ const deleteModal = bsModal(
   "Delete Modal",
   "danger",
   "Are you sure?",
-  () => {}
+  () => {
+    deleteData(selectedId)
+  }
 )
 
 const crudInfoTable = bsTable(
@@ -82,3 +66,25 @@ mainContainer.append(
   deleteModal,
   crudInfoTable
 )
+
+function bsForm(dataHeaders, baseId){
+  const form = document.createElement("div")
+  dataHeaders.forEach((header) => {
+    if (!header.editable) return
+    if (header.type == "select") {
+    } else {
+      form.append(
+        bsFormInput(`${baseId}-${header.dataKey}`, header.type, header.tableHeader)
+      )
+    }
+  })
+  return form
+}
+
+function dataForAction(dataHeaders){
+  let data = dataHeaders.filter(element => !!element.editable)
+  data = data.map(element => element.dataKey)
+  console.log(data) 
+}
+
+dataForAction(tableHeaders)
